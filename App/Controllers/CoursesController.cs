@@ -12,5 +12,11 @@ namespace App.Controllers
         {
             return View();
         }
+
+        [HttpGet()]
+        public IActionResult AddCourse()
+        {
+            return View("AddCourse");
+        }
     }
 }
