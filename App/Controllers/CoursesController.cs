@@ -1,3 +1,4 @@
+using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Text.Encodings.Web;
@@ -21,9 +22,10 @@ namespace App.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddCourse(Object data) 
+        public IActionResult AddCourse(AddCourseViewModel model) 
         {
-            return Content("Saved!");        
+            var result = model.Title;
+            return Content($"Saved! - {result}");        
         }
     }
 }

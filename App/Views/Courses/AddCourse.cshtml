@@ -1,1 +1,36 @@
+@model App.ViewModels.AddCourseViewModel
+
 <h1>Here you can add a new course </h1>
+
+@* Creating a form for adding course *@
+
+<form asp-controller="Courses" asp-action="AddCourse" method="POST">
+    <div class="card">
+        <div class="card-header">
+            <h4>Add new course</h4>
+        </div>
+        <div class="p-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="Title"></label>
+                <input class="form-control" asp-for="Title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Description"></label>
+                <input class="form-control" asp-for="Description">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Length"></label>
+                <input class="form-control" asp-for="Length">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Category"></label>
+                <input class="form-control" asp-for="Category">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Price"></label>
+                <input class="form-control" asp-for="Price">
+            </div>
+            <input type="submit" value="Save">
+        </div>
+    </div>
+</form>
