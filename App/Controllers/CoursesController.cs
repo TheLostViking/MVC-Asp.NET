@@ -7,6 +7,7 @@ namespace App.Controllers
     {
 
         //GET /Courses/
+        [HttpGet()]
         public IActionResult Index()
         {
             return View();
