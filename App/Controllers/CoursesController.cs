@@ -22,10 +22,9 @@ namespace App.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddCourse(AddCourseViewModel model) 
+        public IActionResult AddCourse(AddCourseViewModel data) 
         {
-            var result = model.Title;
-            return Content($"Saved! - {result}");        
+            return RedirectToAction("Index");      
         }
     }
 }
