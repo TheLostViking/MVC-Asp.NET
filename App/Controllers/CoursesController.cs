@@ -1,0 +1,15 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Encodings.Web;
+
+namespace App.Controllers
+{
+    public class CoursesController : Controller
+    {
+
+        //GET /Courses/
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+}
