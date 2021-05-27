@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Text.Encodings.Web;
 
 namespace App.Controllers
@@ -17,6 +18,12 @@ namespace App.Controllers
         public IActionResult AddCourse()
         {
             return View("AddCourse");
+        }
+
+        [HttpPost()]
+        public IActionResult AddCourse(Object data) 
+        {
+            return Content("Saved!");        
         }
     }
 }

@@ -39,3 +39,4 @@ C:\Users\sebas\OneDrive\Dokument\Webbutveckling\ASP.Net\mvc\lab3\App\obj\Debug\n
 C:\Users\sebas\OneDrive\Dokument\Webbutveckling\ASP.Net\mvc\lab3\App\obj\Debug\net5.0\App.csproj.CopyComplete
 C:\Users\sebas\OneDrive\Dokument\Webbutveckling\ASP.Net\mvc\lab3\app\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\sebas\OneDrive\Dokument\Webbutveckling\ASP.Net\mvc\lab3\app\obj\Debug\net5.0\Razor\Views\Courses\Index.cshtml.g.cs
+C:\Users\sebas\OneDrive\Dokument\Webbutveckling\ASP.Net\mvc\lab3\app\obj\Debug\net5.0\Razor\Views\Courses\AddCourse.cshtml.g.cs
