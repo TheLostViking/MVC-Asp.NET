@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\App.csproj": {}
+    "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\App.csproj": {}
   },
   "projects": {
-    "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\App.csproj": {
+    "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\App.csproj",
+        "projectUniqueName": "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\App.csproj",
         "projectName": "App",
-        "projectPath": "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\App.csproj",
+        "projectPath": "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\App.csproj",
         "packagesPath": "C:\\Users\\sebas\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\obj\\",
+        "outputPath": "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,6 +25,7 @@
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,6 +59,8 @@
               "version": "[5.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.6, )"
             }
