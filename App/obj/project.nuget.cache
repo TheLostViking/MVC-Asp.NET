@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "97XI9FTDKr9Euyn+P1T7Fh9yn/h0EZpvIJxkYCD7Xh8zpAF2fSbzcM/B4Cm3VHBgWi9QneiMxvUb1xtRs2dWBA==",
+  "dgSpecHash": "x2WsEZj6fuTSgqK0YGsd0oTu7lF1fDhIrZEsHH94LgoJ8WN7HHxYbxK4tjJjtCVfb6ACtob77A7JdJ0uCvBjJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\app\\App.csproj",
+  "projectFilePath": "c:\\Users\\sebas\\OneDrive\\Dokument\\Webbutveckling\\ASP.Net\\mvc\\lab3\\App\\App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sebas\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
@@ -15,6 +15,7 @@
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.6\\microsoft.entityframeworkcore.relational.5.0.6.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite\\5.0.6\\microsoft.entityframeworkcore.sqlite.5.0.6.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite.core\\5.0.6\\microsoft.entityframeworkcore.sqlite.core.5.0.6.nupkg.sha512",
+    "C:\\Users\\sebas\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\5.0.6\\microsoft.entityframeworkcore.tools.5.0.6.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.extensions.caching.memory\\5.0.0\\microsoft.extensions.caching.memory.5.0.0.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
