@@ -4,6 +4,7 @@ using App.Models;
 using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Text.Encodings.Web;
 
 namespace App.Controllers
@@ -21,7 +22,8 @@ namespace App.Controllers
         [HttpGet()]
         public IActionResult Index()
         {
-            return View();
+            var result = _context.Courses.ToList();
+            return View("Index", result);
         }
 
         [HttpGet()]
@@ -42,9 +44,10 @@ namespace App.Controllers
                 Price = data.Price
             };
 
+            //Adding object to EF ChangeTracking
             _context.Courses.Add(course);
-            var result = _context.SaveChanges();           
-            
+            //Saves to the database
+            var result = _context.SaveChanges();            
             return RedirectToAction("Index");      
         }
     }
