@@ -53,6 +53,7 @@ namespace App.Controllers
             return RedirectToAction("Index");      
         }
 
+        //Method for getting the course to Edit
         [HttpGet()]
         public async Task<IActionResult> EditCourse(int id)
         {
@@ -66,7 +67,25 @@ namespace App.Controllers
                 Category = course.Category,
                 Price = course.Price
             };
-            return View("EditCourse", course);
+            return View("EditCourse", model);
+        }
+
+        //Method for updating the course with new parameters, saves to Database
+        [HttpPost()]
+        public async Task<IActionResult> EditCourse(EditCourseViewModel data)
+        {   
+            var course = await _context.Courses.FindAsync(data.Id);
+
+            course.Title = data.Title;
+            course.Description = data.Description;
+            course.Length = data.Length;
+            course.Category = data.Category;
+            course.Price = data.Price;
+
+            _context.Courses.Update(course);
+
+            var result = await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }
