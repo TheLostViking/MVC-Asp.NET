@@ -3,9 +3,11 @@ using App.Entities;
 using App.Models;
 using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace App.Controllers
 {
@@ -20,9 +22,9 @@ namespace App.Controllers
 
         //GET /Courses/
         [HttpGet()]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var result = _context.Courses.ToList();
+            var result = await _context.Courses.ToListAsync();
             return View("Index", result);
         }
 
@@ -33,7 +35,7 @@ namespace App.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddCourse(AddCourseViewModel data) 
+        public async Task<IActionResult> AddCourse(AddCourseViewModel data) 
         {
              var course = new Course
              {
@@ -47,7 +49,7 @@ namespace App.Controllers
             //Adding object to EF ChangeTracking
             _context.Courses.Add(course);
             //Saves to the database
-            var result = _context.SaveChanges();            
+            var result = await _context.SaveChangesAsync();            
             return RedirectToAction("Index");      
         }
     }
