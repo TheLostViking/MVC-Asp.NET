@@ -52,5 +52,21 @@ namespace App.Controllers
             var result = await _context.SaveChangesAsync();            
             return RedirectToAction("Index");      
         }
+
+        [HttpGet()]
+        public async Task<IActionResult> EditCourse(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            var model =  new EditCourseViewModel
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Description = course.Description,
+                Length = course.Length,
+                Category = course.Category,
+                Price = course.Price
+            };
+            return View("EditCourse", course);
+        }
     }
 }
