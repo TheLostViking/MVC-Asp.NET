@@ -5,11 +5,14 @@ namespace App.ViewModels
     public class AddCourseViewModel
     {
         [Display(Name = "Course Title")]
+        [Required(ErrorMessage = "You have to enter a title.")]
         public string Title { get; set; }     
         public string Description { get; set; }
+        [Display(Name = "Length(H)")]
         public string Length { get; set; }
         public string Category { get; set; }
         [Display(Name = "Price(USD)")]
-        public decimal Price { get; set; }        
+        [Required(ErrorMessage = "You have to enter a price.")]
+        public decimal? Price { get; set; }        
     }
 }

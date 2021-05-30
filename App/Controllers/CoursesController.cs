@@ -1,5 +1,6 @@
 using App.Data;
 using App.Entities;
+using App.Interfaces;
 using App.Models;
 using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -13,51 +14,58 @@ namespace App.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly DataContext _context;
+        
+        private readonly ICourseRepository _courseRepo;
 
-        public CoursesController(DataContext context)
+        public CoursesController(ICourseRepository courseRepo)
         {
-            _context = context;
+            _courseRepo = courseRepo;
         }
 
         //GET /Courses/
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            var result = await _context.Courses.ToListAsync();
+            var result = await _courseRepo.GetCoursesAsync();
             return View("Index", result);
         }
 
         [HttpGet()]
         public IActionResult AddCourse()
         {
-            return View("AddCourse");
+            var model = new AddCourseViewModel();
+            return View("AddCourse", model);
         }
 
         [HttpPost()]
         public async Task<IActionResult> AddCourse(AddCourseViewModel data) 
         {
-             var course = new Course
-             {
+            if(!ModelState.IsValid)
+            {
+                return View("AddCourse", data);
+            }
+
+            var course = new Course
+            {
                 Title = data.Title,
                 Description = data.Description,
                 Category = data.Category,
                 Length = data.Length,
-                Price = data.Price
+                Price = (decimal)data.Price
             };
 
             //Adding object to EF ChangeTracking
-            _context.Courses.Add(course);
+            _courseRepo.Add(course);
             //Saves to the database
-            var result = await _context.SaveChangesAsync();            
-            return RedirectToAction("Index");      
+            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            return View("Error");   
         }
 
         //Method for getting the course to Edit
         [HttpGet()]
         public async Task<IActionResult> EditCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _courseRepo.GetCoursesByIdAsync(id);
             var model =  new EditCourseViewModel
             {
                 Id = course.Id,
@@ -74,7 +82,7 @@ namespace App.Controllers
         [HttpPost()]
         public async Task<IActionResult> EditCourse(EditCourseViewModel data)
         {   
-            var course = await _context.Courses.FindAsync(data.Id);
+            var course = await _courseRepo.GetCoursesByIdAsync(data.Id);
 
             course.Title = data.Title;
             course.Description = data.Description;
@@ -82,10 +90,20 @@ namespace App.Controllers
             course.Category = data.Category;
             course.Price = data.Price;
 
-            _context.Courses.Update(course);
+            _courseRepo.Update(course);
 
-            var result = await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            return View("Error");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var course = await _courseRepo.GetCoursesByIdAsync(id);
+            _courseRepo.Delete(course);
+
+            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            return View("Error");
+
         }
     }
 }
