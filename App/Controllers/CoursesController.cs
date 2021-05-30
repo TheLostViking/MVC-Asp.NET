@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 namespace App.Controllers
 {
     public class CoursesController : Controller
-    {
-        
+    {        
         private readonly ICourseRepository _courseRepo;
 
         public CoursesController(ICourseRepository courseRepo)

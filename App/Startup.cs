@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.Data;
+using App.Interfaces;
+using App.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,8 +31,9 @@ namespace App
             services.AddDbContext<DataContext>(options => {
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
-            
-            services.AddControllersWithViews();            
+                       
+            services.AddControllersWithViews();
+            services.AddScoped<ICourseRepository, CourseRepository>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
