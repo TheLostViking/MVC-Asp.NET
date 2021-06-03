@@ -13,19 +13,19 @@ using System.Threading.Tasks;
 namespace App.Controllers
 {
     public class CoursesController : Controller
-    {        
-        private readonly ICourseRepository _courseRepo;
+    {
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CoursesController(ICourseRepository courseRepo)
+        public CoursesController(IUnitOfWork unitOfWork)
         {
-            _courseRepo = courseRepo;
+            _unitOfWork = unitOfWork;
         }
 
         //GET /Courses/
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            var result = await _courseRepo.GetCoursesAsync();
+            var result = await _unitOfWork.CourseRepository.GetCoursesAsync();
             return View("Index", result);
         }
 
@@ -54,9 +54,9 @@ namespace App.Controllers
             };
 
             //Adding object to EF ChangeTracking
-            _courseRepo.Add(course);
+            _unitOfWork.CourseRepository.Add(course);
             //Saves to the database
-            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            if(await _unitOfWork.SaveAll()) return RedirectToAction("Index");
             return View("Error");   
         }
 
@@ -64,7 +64,7 @@ namespace App.Controllers
         [HttpGet()]
         public async Task<IActionResult> EditCourse(int id)
         {
-            var course = await _courseRepo.GetCoursesByIdAsync(id);
+            var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
             var model =  new EditCourseViewModel
             {
                 Id = course.Id,
@@ -81,7 +81,7 @@ namespace App.Controllers
         [HttpPost()]
         public async Task<IActionResult> EditCourse(EditCourseViewModel data)
         {   
-            var course = await _courseRepo.GetCoursesByIdAsync(data.Id);
+            var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(data.Id);
 
             course.Title = data.Title;
             course.Description = data.Description;
@@ -89,18 +89,18 @@ namespace App.Controllers
             course.Category = data.Category;
             course.Price = data.Price;
 
-            _courseRepo.Update(course);
+            _unitOfWork.CourseRepository.Update(course);
 
-            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            if(await _unitOfWork.SaveAll()) return RedirectToAction("Index");
             return View("Error");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var course = await _courseRepo.GetCoursesByIdAsync(id);
-            _courseRepo.Delete(course);
+            var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
+            _unitOfWork.CourseRepository.Delete(course);
 
-            if(await _courseRepo.SaveAllAsync()) return RedirectToAction("Index");
+            if(await _unitOfWork.SaveAll()) return RedirectToAction("Index");
             return View("Error");
 
         }

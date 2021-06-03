@@ -25,10 +25,5 @@ namespace App.Repos
         {
             return await _context.Students.ToListAsync();
         }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
     }
 }

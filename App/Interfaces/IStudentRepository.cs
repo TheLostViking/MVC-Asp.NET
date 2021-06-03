@@ -8,6 +8,6 @@ namespace App.Interfaces
     {
         void Add(Student student);
         Task<IEnumerable<Student>> GetStudentsAsyncById(int id);
-        Task<bool> SaveAllAsync();
+
     }
 }

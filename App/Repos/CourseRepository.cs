@@ -33,12 +33,7 @@ namespace App.Repos
         public async Task<Course> GetCoursesByIdAsync(int id)
         {
             return await _context.Courses.FindAsync(id);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
+        }     
 
         public void Update(Course course)
         {

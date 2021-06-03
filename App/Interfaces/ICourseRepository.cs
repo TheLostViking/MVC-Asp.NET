@@ -11,6 +11,5 @@ namespace App.Interfaces
         Task<Course> GetCoursesByIdAsync(int id);
         void Update(Course course);
         void Delete(Course course);
-        Task<bool> SaveAllAsync();
     }
 }
