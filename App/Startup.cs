@@ -33,8 +33,7 @@ namespace App
             });
                        
             services.AddControllersWithViews();
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
