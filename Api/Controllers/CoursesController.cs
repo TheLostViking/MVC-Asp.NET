@@ -49,8 +49,9 @@ namespace Api.Controllers
                 var course = await _context.Courses.FindAsync(id);
                 course.Title = courseModel.Title;
                 course.Description = courseModel.Description;
-                course.Category = courseModel.Category;
+                course.CourseNumber = courseModel.CourseNumber;
                 course.Length = courseModel.Length;
+                course.Active = courseModel.Active;
                 course.Price = courseModel.Price;
 
                 _context.Update(course);
