@@ -39,5 +39,23 @@ namespace Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStudent(int id)
+        {
+            try
+            {
+                var student = await _context.Students.SingleOrDefaultAsync(c =>
+                c.Id == id);
+                if(student == null) return NotFound();
+                _context.Students.Remove(student);
+                var result = _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
