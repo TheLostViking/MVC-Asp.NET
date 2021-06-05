@@ -36,20 +36,49 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                 return StatusCode(500, ex.Message);
+                return StatusCode(500, ex.Message);
             }
-            
+
         }
 
-        [HttpPut ("{id}")]
-        public async Task<IActionResult> UpdateCourse(int id, object model)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, Course courseModel)
         {
-            return NoContent();
+            try
+            {
+                var course = await _context.Courses.FindAsync(id);
+                course.Title = courseModel.Title;
+                course.Description = courseModel.Description;
+                course.Category = courseModel.Category;
+                course.Length = courseModel.Length;
+                course.Price = courseModel.Price;
+
+                _context.Update(course);
+                var result = await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+               return StatusCode(500, ex.Message);
+            }
+
         }
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            return NoContent();
+            try
+            {
+                var course = await _context.Courses.SingleOrDefaultAsync(c => c.Id == id);
+                if (course == null) return NotFound();
+                _context.Courses.Remove(course);
+                var result = _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
     }
 }
