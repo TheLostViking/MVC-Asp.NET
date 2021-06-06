@@ -52,6 +52,7 @@ namespace Api.Controllers
                 course.Description = courseModel.Description;
                 course.CourseNumber = courseModel.CourseNumber;
                 course.Length = courseModel.Length;
+                course.Level = courseModel.Level;
                 course.Active = courseModel.Active;
                 course.Price = courseModel.Price;
 
