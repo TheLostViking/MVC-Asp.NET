@@ -12,6 +12,5 @@ namespace Api.Interfaces
         Task<Course> GetCoursesByCourseNoAsync(int courseNumber);
         void Update(Course course);
         void Delete(Course course);
-        Task<bool> SaveAllChanges();
     }
 }

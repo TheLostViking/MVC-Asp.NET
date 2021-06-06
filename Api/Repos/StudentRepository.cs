@@ -35,12 +35,6 @@ namespace Api.Repos
         {
             return await _context.Students.ToListAsync();            
         }
-
-        public async Task<bool> SaveAllChanges()
-        {
-             return await _context.SaveChangesAsync() > 0;
-        }
-
         public void Update(Student student)
         {
             _context.Students.Update(student);

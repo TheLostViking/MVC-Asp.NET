@@ -40,12 +40,6 @@ namespace Api.Repos
         {
             return await _context.Courses.FindAsync(id);
         }
-
-        public async Task<bool> SaveAllChanges()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public void Update(Course course)
         {
             _context.Courses.Update(course);

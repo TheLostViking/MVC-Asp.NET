@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Entities;
+using Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,17 +12,19 @@ namespace Api.Controllers
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IStudentRepository _repo;
 
-        public StudentsController(DataContext context)
+        public StudentsController(IUnitOfWork unitOfWork, IStudentRepository repo)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
         }
 
         [HttpGet()]
         public async Task<IActionResult> GetStudents()
         {
-            var result = await _context.Students.ToListAsync();
+            var result = await _repo.GetStudentsAsync();
             return Ok(result);
         }
 
@@ -30,8 +33,8 @@ namespace Api.Controllers
         {
               try
             {
-                _context.Students.Add(student);
-                var result = await _context.SaveChangesAsync();
+                await _repo.AddStudent(student);
+                var result = await _unitOfWork.Complete();
                 return StatusCode(201);
             }
             catch (Exception ex)
@@ -45,13 +48,13 @@ namespace Api.Controllers
         {
             try
             {
-                var student = await _context.Students.FindAsync(id);
+                var student = await _repo.GetStudentByIdAsync(id);
                 student.FirstName = studentModel.FirstName;
                 student.LastName = studentModel.LastName;
                 student.Adress = studentModel.Adress;
                 student.Phone = studentModel.Phone;
-                _context.Update(student);
-                var result = _context.SaveChangesAsync();
+                _repo.Update(student);
+                var result = _unitOfWork.Complete();
                 return NoContent();
             }
             catch (Exception ex)
@@ -65,11 +68,10 @@ namespace Api.Controllers
         {
             try
             {
-                var student = await _context.Students.SingleOrDefaultAsync(c =>
-                c.Id == id);
+                var student = await _repo.GetStudentByIdAsync(id);
                 if(student == null) return NotFound();
-                _context.Students.Remove(student);
-                var result = _context.SaveChangesAsync();
+                _repo.Delete(student);
+                var result = _unitOfWork.Complete();
                 return NoContent();
             }
             catch (Exception ex)

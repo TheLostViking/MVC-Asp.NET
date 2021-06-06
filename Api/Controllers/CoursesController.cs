@@ -12,10 +12,12 @@ namespace Api.Controllers
     [Route("api/courses")]
     public class CoursesController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICourseRepository _repo;
 
-        public CoursesController(DataContext context, ICourseRepository repo)
+        public CoursesController(IUnitOfWork unitOfWork, ICourseRepository repo)
         {
+            _unitOfWork = unitOfWork;
             _repo = repo;
         }
 
@@ -39,7 +41,7 @@ namespace Api.Controllers
             try
             {
                 await _repo.Add(course);
-                if (await _repo.SaveAllChanges()) return StatusCode(201);
+                if (await _unitOfWork.Complete()) return StatusCode(201);
                 return StatusCode(500, "Something went wrong!");
             }
             catch (Exception ex)
@@ -63,7 +65,7 @@ namespace Api.Controllers
                 course.Price = courseModel.Price;
 
                 _repo.Update(course);
-                var result = await _repo.SaveAllChanges();
+                var result = await _unitOfWork.Complete();
                 return NoContent();
             }
             catch (Exception ex)
@@ -81,7 +83,7 @@ namespace Api.Controllers
                 if (course == null) return NotFound();
 
                 _repo.Delete(course);
-                var result = _repo.SaveAllChanges();
+                var result = _unitOfWork.Complete();
 
                 return NoContent();
             }

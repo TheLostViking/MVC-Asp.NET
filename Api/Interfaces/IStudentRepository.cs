@@ -11,6 +11,5 @@ namespace Api.Interfaces
         Task<Student> GetStudentByIdAsync(int id);
         void Update(Student student);
         void Delete(Student student);
-        Task<bool> SaveAllChanges();
     }
 }
