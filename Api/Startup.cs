@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
+using Api.Interfaces;
+using Api.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +35,9 @@ namespace Api
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
             
+
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

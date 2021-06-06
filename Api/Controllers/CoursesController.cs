@@ -26,6 +26,13 @@ namespace Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{courseNumber}")]
+        public async Task<IActionResult> GetCourses(int courseNumber)
+        {
+            var result = await _repo.GetCoursesByCourseNoAsync(courseNumber);
+            return Ok(result);
+        }
+
         [HttpPost()]
         public async Task<IActionResult> AddCourse(Course course)
         {
@@ -39,7 +46,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
 
         [HttpPut("{id}")]
@@ -64,8 +70,8 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -83,7 +89,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
     }
 }
