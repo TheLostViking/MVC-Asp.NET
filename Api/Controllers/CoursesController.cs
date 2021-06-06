@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
+using Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,17 +12,17 @@ namespace Api.Controllers
     [Route("api/courses")]
     public class CoursesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ICourseRepository _repo;
 
-        public CoursesController(DataContext context)
+        public CoursesController(DataContext context, ICourseRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         [HttpGet()]
         public async Task<IActionResult> GetCourses()
         {
-            var result = await _context.Courses.ToListAsync();
+            var result = await _repo.GetCoursesAsync();
             return Ok(result);
         }
 
@@ -30,9 +31,9 @@ namespace Api.Controllers
         {
             try
             {
-                _context.Courses.Add(course);
-                var result = await _context.SaveChangesAsync();
-                return StatusCode(201);
+                await _repo.Add(course);
+                if (await _repo.SaveAllChanges()) return StatusCode(201);
+                return StatusCode(500, "Something went wrong!");
             }
             catch (Exception ex)
             {
@@ -46,7 +47,7 @@ namespace Api.Controllers
         {
             try
             {
-                var course = await _context.Courses.FindAsync(id);
+                var course = await _repo.GetCoursesByIdAsync(id);
                 course.Title = courseModel.Title;
                 course.Description = courseModel.Description;
                 course.CourseNumber = courseModel.CourseNumber;
@@ -54,13 +55,13 @@ namespace Api.Controllers
                 course.Active = courseModel.Active;
                 course.Price = courseModel.Price;
 
-                _context.Update(course);
-                var result = await _context.SaveChangesAsync();
+                _repo.Update(course);
+                var result = await _repo.SaveAllChanges();
                 return NoContent();
             }
             catch (Exception ex)
             {
-               return StatusCode(500, ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
         }
@@ -69,10 +70,12 @@ namespace Api.Controllers
         {
             try
             {
-                var course = await _context.Courses.SingleOrDefaultAsync(c => c.Id == id);
+                var course = await _repo.GetCoursesByIdAsync(id);
                 if (course == null) return NotFound();
-                _context.Courses.Remove(course);
-                var result = _context.SaveChangesAsync();
+
+                _repo.Delete(course);
+                var result = _repo.SaveAllChanges();
+
                 return NoContent();
             }
             catch (Exception ex)

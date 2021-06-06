@@ -40,6 +40,26 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditStudent(int id, Student studentModel)
+        {
+            try
+            {
+                var student = await _context.Students.FindAsync(id);
+                student.FirstName = studentModel.FirstName;
+                student.LastName = studentModel.LastName;
+                student.Adress = studentModel.Adress;
+                student.Phone = studentModel.Phone;
+                _context.Update(student);
+                var result = _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {

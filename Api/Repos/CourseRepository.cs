@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repos
 {
@@ -22,17 +23,17 @@ namespace Api.Repos
 
         public void Delete(Course course)
         {
-            throw new System.NotImplementedException();
+           _context.Courses.Remove(course);
         }
 
-        public Task<IEnumerable<Course>> GetCoursesAsync()
+        public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.Courses.ToListAsync();
         }
 
-        public Task<Course> GetCoursesByIdAsync(int id)
+        public async Task<Course> GetCoursesByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Courses.FindAsync(id);
         }
 
         public async Task<bool> SaveAllChanges()
@@ -42,7 +43,7 @@ namespace Api.Repos
 
         public void Update(Course course)
         {
-            throw new System.NotImplementedException();
+            _context.Courses.Update(course);
         }
     }
 }
