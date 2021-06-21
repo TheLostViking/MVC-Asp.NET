@@ -35,9 +35,7 @@ namespace Api
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
             
-
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

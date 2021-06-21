@@ -13,18 +13,16 @@ namespace Api.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IStudentRepository _repo;
 
-        public StudentsController(IUnitOfWork unitOfWork, IStudentRepository repo)
+        public StudentsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _repo = repo;
         }
 
         [HttpGet()]
         public async Task<IActionResult> GetStudents()
         {
-            var result = await _repo.GetStudentsAsync();
+            var result = await _unitOfWork.StudentRepository.GetStudentsAsync();
             return Ok(result);
         }
 
@@ -33,7 +31,7 @@ namespace Api.Controllers
         {
               try
             {
-                await _repo.AddStudent(student);
+                await _unitOfWork.StudentRepository.AddStudent(student);
                 var result = await _unitOfWork.Complete();
                 return StatusCode(201);
             }
@@ -48,12 +46,12 @@ namespace Api.Controllers
         {
             try
             {
-                var student = await _repo.GetStudentByIdAsync(id);
+                var student = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
                 student.FirstName = studentModel.FirstName;
                 student.LastName = studentModel.LastName;
                 student.Adress = studentModel.Adress;
                 student.Phone = studentModel.Phone;
-                _repo.Update(student);
+                _unitOfWork.StudentRepository.Update(student);
                 var result = _unitOfWork.Complete();
                 return NoContent();
             }
@@ -68,9 +66,9 @@ namespace Api.Controllers
         {
             try
             {
-                var student = await _repo.GetStudentByIdAsync(id);
+                var student = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
                 if(student == null) return NotFound();
-                _repo.Delete(student);
+                _unitOfWork.StudentRepository.Delete(student);
                 var result = _unitOfWork.Complete();
                 return NoContent();
             }

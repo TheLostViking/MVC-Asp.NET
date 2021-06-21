@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
@@ -13,25 +14,23 @@ namespace Api.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICourseRepository _repo;
 
-        public CoursesController(IUnitOfWork unitOfWork, ICourseRepository repo)
+        public CoursesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _repo = repo;
         }
 
         [HttpGet()]
         public async Task<IActionResult> GetCourses()
-        {
-            var result = await _repo.GetCoursesAsync();
+        {           
+            var result = await _unitOfWork.CourseRepository.GetCoursesAsync();
             return Ok(result);
         }
 
         [HttpGet("{courseNumber}")]
         public async Task<IActionResult> GetCourses(int courseNumber)
         {
-            var result = await _repo.GetCoursesByCourseNoAsync(courseNumber);
+            var result = await _unitOfWork.CourseRepository.GetCoursesByCourseNoAsync(courseNumber);
             return Ok(result);
         }
 
@@ -40,7 +39,7 @@ namespace Api.Controllers
         {
             try
             {
-                await _repo.Add(course);
+                await _unitOfWork.CourseRepository.Add(course);
                 if (await _unitOfWork.Complete()) return StatusCode(201);
                 return StatusCode(500, "Something went wrong!");
             }
@@ -55,7 +54,7 @@ namespace Api.Controllers
         {
             try
             {
-                var course = await _repo.GetCoursesByIdAsync(id);
+                var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
                 course.Title = courseModel.Title;
                 course.Description = courseModel.Description;
                 course.CourseNumber = courseModel.CourseNumber;
@@ -64,7 +63,7 @@ namespace Api.Controllers
                 course.Active = courseModel.Active;
                 course.Price = courseModel.Price;
 
-                _repo.Update(course);
+                _unitOfWork.CourseRepository.Update(course);
                 var result = await _unitOfWork.Complete();
                 return NoContent();
             }
@@ -79,10 +78,10 @@ namespace Api.Controllers
         {
             try
             {
-                var course = await _repo.GetCoursesByIdAsync(id);
+                var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
                 if (course == null) return NotFound();
 
-                _repo.Delete(course);
+                _unitOfWork.CourseRepository.Delete(course);
                 var result = _unitOfWork.Complete();
 
                 return NoContent();

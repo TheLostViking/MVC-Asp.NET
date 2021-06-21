@@ -1,14 +1,13 @@
-using App.Data;
 using App.Entities;
 using App.Interfaces;
 using App.Models;
 using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Text.Encodings.Web;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
+
 
 namespace App.Controllers
 {
@@ -25,8 +24,19 @@ namespace App.Controllers
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            var result = await _unitOfWork.CourseRepository.GetCoursesAsync();
-            return View("Index", result);
+            using var client = new HttpClient();
+            var response = await client.GetAsync("https://localhost:5001/api/courses");
+            
+            if(response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<List<CourseModel>>(data, new JsonSerializerOptions{
+                    PropertyNameCaseInsensitive = true
+                });
+                return View("Index", result);
+            }
+            
+            return View("Index");
         }
 
         [HttpGet()]
@@ -48,7 +58,7 @@ namespace App.Controllers
             {
                 Title = data.Title,
                 Description = data.Description,
-                Category = data.Category,
+                Level = data.Level,
                 Length = data.Length,
                 Price = (decimal)data.Price
             };
@@ -71,7 +81,7 @@ namespace App.Controllers
                 Title = course.Title,
                 Description = course.Description,
                 Length = course.Length,
-                Category = course.Category,
+                Level = course.Level,
                 Price = course.Price
             };
             return View("EditCourse", model);
@@ -86,7 +96,7 @@ namespace App.Controllers
             course.Title = data.Title;
             course.Description = data.Description;
             course.Length = data.Length;
-            course.Category = data.Category;
+            course.Level = data.Level;
             course.Price = data.Price;
 
             _unitOfWork.CourseRepository.Update(course);

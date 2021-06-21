@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Course List";
 }
-@model IEnumerable<App.Entities.Course>
+@model IEnumerable<App.Models.CourseModel>
 
 <a class="btn btn-primary mb-3" asp-action="AddCourse">Add Course</a>
 <h2>Course List</h2>
@@ -10,10 +10,11 @@
   <thead>
     <tr class="table-primary">
       <th></th>
+      <th scope="col">Course #</th>
       <th scope="col">Title</th>
       <th scope="col">Description</th>
       <th scope="col">Length</th>
-      <th scope="col">Category</th>
+      <th scope="col">Level</th>
       <th scope="col">Price</th>
     </tr>
   </thead>
@@ -24,10 +25,11 @@
             <td style="text-align:center;">
                 <a asp-action="EditCourse" asp-route-id="@course.Id" class="btn btn-primary btn-small">Edit</a>
             </td>
+            <td>@course.CourseNumber</td>
             <td>@course.Title</td>
             <td>@course.Description</td>
             <td>@course.Length</td>
-            <td>@course.Category</td>
+            <td>@course.Level</td>
             <td>@course.Price</td>
         </tr>  
     }    
