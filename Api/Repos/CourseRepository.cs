@@ -31,9 +31,9 @@ namespace Api.Repos
             return await _context.Courses.ToListAsync();
         }
 
-        public async Task<Course> GetCoursesByCourseNoAsync(int courseNumber)
+        public async Task<Course> GetCoursesByCourseNumberAsync(int courseNumber)
         {
-            return await _context.Courses.FindAsync();
+            return await _context.Courses.FindAsync(courseNumber);
         }
 
         public async Task<Course> GetCoursesByIdAsync(int id)

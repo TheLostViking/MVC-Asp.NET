@@ -74,7 +74,18 @@ namespace App.Controllers
         [HttpGet()]
         public async Task<IActionResult> EditCourse(int id)
         {
-            var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
+            CourseModel course = null;
+            using var client = new HttpClient();
+            var response = await client.GetAsync($"https://localhost:5001/api/courses/{id}");
+            
+            if(response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                course = JsonSerializer.Deserialize<CourseModel>(data, new JsonSerializerOptions{
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            //var course = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
             var model =  new EditCourseViewModel
             {
                 Id = course.Id,

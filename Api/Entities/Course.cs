@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Api.Entities
 {
     public class Course
@@ -10,5 +12,6 @@ namespace Api.Entities
         public string Level { get; set; }
         public decimal Price { get; set; } 
         public bool Active { get; set; }
+        public ICollection<Student> Students { get; set; }
     }
 }

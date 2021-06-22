@@ -27,10 +27,17 @@ namespace Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{courseNumber}")]
-        public async Task<IActionResult> GetCourses(int courseNumber)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCoursesById(int id)
         {
-            var result = await _unitOfWork.CourseRepository.GetCoursesByCourseNoAsync(courseNumber);
+            var result = await _unitOfWork.CourseRepository.GetCoursesByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet("{courseNumber}")]
+        public async Task<IActionResult> GetCoursesByCourseNumber(int courseNumber)
+        {
+            var result = await _unitOfWork.CourseRepository.GetCoursesByCourseNumberAsync(courseNumber);
             return Ok(result);
         }
 

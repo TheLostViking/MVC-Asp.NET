@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Api.Entities
 {
     public class Student
@@ -8,5 +10,6 @@ namespace Api.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Adress { get; set; }
+        public ICollection<Course> Courses { get; set; }
     }
 }
