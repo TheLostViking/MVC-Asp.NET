@@ -12,8 +12,14 @@
         </div>
         <div class="p-3">
             <div class="mb-3">
+                <label class="form-label" asp-for="CourseNumber"></label>
+                <input class="form-control" asp-for="CourseNumber">
+                <span asp-validation-for="CourseNumber"></span>
+            </div>
+            <div class="mb-3">
                 <label class="form-label" asp-for="Title"></label>
                 <input class="form-control" asp-for="Title">
+                <span asp-validation-for="Title"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label" asp-for="Description"></label>
@@ -22,15 +28,19 @@
             <div class="mb-3">
                 <label class="form-label" asp-for="Length"></label>
                 <input class="form-control" asp-for="Length">
+                <span asp-validation-for="Length"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label" asp-for="Level"></label>
                 <input class="form-control" asp-for="Level">
+                <span asp-validation-for="Level"></span>
             </div>                        
             <div class="mb-3">
                 <label class="form-label" asp-for="Price"></label>
                 <input class="form-control" asp-for="Price">
+                <span asp-validation-for="Price"></span>
             </div>
+
             <input class ="btn btn-primary" type="submit" value="Save">
         </div>
     </div>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.Data;
 using App.Interfaces;
 using App.Repos;
+using App.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,9 @@ namespace App
             });
                        
             services.AddControllersWithViews();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();          
+            services.AddScoped<IUnitOfWork, UnitOfWork>();   
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddHttpClient<ICourseService, CourseService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

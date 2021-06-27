@@ -16,6 +16,7 @@
       <th scope="col">Length</th>
       <th scope="col">Level</th>
       <th scope="col">Price</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>      
@@ -31,6 +32,9 @@
             <td>@course.Length</td>
             <td>@course.Level</td>
             <td>@course.Price</td>
+            <td style="text-align: center;">
+              <a asp-action="Delete" asp-route-courseNumber="@course.CourseNumber" class = "btn btn-primary btn-small">Delete</a>
+            </td>
         </tr>  
     }    
   </tbody>

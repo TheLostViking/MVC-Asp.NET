@@ -1,9 +1,11 @@
 using Api.Data;
 using Api.Entities;
 using Api.Interfaces;
+using Api.ViewModels.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -22,18 +24,78 @@ namespace Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetStudents()
         {
-            var result = await _unitOfWork.StudentRepository.GetStudentsAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _unitOfWork.StudentRepository.GetStudentsAsync();
+                var students = new List<StudentViewModel>();
+                if (result == null) return NotFound();
+
+                foreach (var s in result)
+                {
+                    students.Add(CreateStudentViewModel(s));
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetStudentByIdAsync(int id)
+        {
+            try
+            {
+                var result = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
+                if (result != null) return StatusCode(201);
+                return StatusCode(500, "Student not found!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetStudentByEmailAsync(string email)
+        {
+            try
+            {
+                var result = await _unitOfWork.StudentRepository.GetStudentByEmailAsync(email);
+                if (result != null) return StatusCode(201);
+                return StatusCode(500, "Email not found!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost()]
-        public async Task<IActionResult> AddStudent(Student student)
+        public async Task<IActionResult> AddStudent(AddStudentViewModel student)
         {
-              try
+            var checkEmail = await _unitOfWork.StudentRepository.GetStudentByEmailAsync(student.Email);
+            if (checkEmail != null)
             {
-                await _unitOfWork.StudentRepository.AddStudent(student);
-                var result = await _unitOfWork.Complete();
-                return StatusCode(201);
+                throw new Exception("This Email is already registered!");
+            }
+
+            try
+            {
+                var newStudent = new Student
+                {
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    Phone = student.Phone,
+                    Adress = student.Adress
+                };
+
+                await _unitOfWork.StudentRepository.AddStudent(newStudent);
+                if (await _unitOfWork.Complete()) return StatusCode(201);
+                return StatusCode(500, "Something went wrong");
             }
             catch (Exception ex)
             {
@@ -42,17 +104,21 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditStudent(int id, Student studentModel)
+        public async Task<IActionResult> EditStudent(int id, UpdateStudentViewModel studentModel)
         {
             try
             {
                 var student = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
+                if (student == null) return NotFound();
+
                 student.FirstName = studentModel.FirstName;
                 student.LastName = studentModel.LastName;
+                student.Email = studentModel.Email;
                 student.Adress = studentModel.Adress;
                 student.Phone = studentModel.Phone;
+
                 _unitOfWork.StudentRepository.Update(student);
-                var result = _unitOfWork.Complete();
+                var result = await _unitOfWork.Complete();
                 return NoContent();
             }
             catch (Exception ex)
@@ -67,7 +133,7 @@ namespace Api.Controllers
             try
             {
                 var student = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
-                if(student == null) return NotFound();
+                if (student == null) return NotFound();
                 _unitOfWork.StudentRepository.Delete(student);
                 var result = _unitOfWork.Complete();
                 return NoContent();
@@ -76,6 +142,20 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        private StudentViewModel CreateStudentViewModel(Student student)
+        {
+            var model = new StudentViewModel()
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                Phone = student.Phone,
+                Adress = student.Adress
+            };
+            return model;
         }
     }
 }

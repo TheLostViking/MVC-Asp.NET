@@ -9,6 +9,7 @@ namespace App.Interfaces
         void Add(Course course);
         Task<IEnumerable<Course>> GetCoursesAsync();
         Task<Course> GetCoursesByIdAsync(int id);
+        Task<Course> GetCourseByCourseNumberAsync(int courseNumber);
         void Update(Course course);
         void Delete(Course course);
     }

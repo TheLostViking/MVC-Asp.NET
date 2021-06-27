@@ -26,6 +26,11 @@ namespace Api.Repos
             _context.Students.Remove(student);
         }
 
+        public async Task<Student> GetStudentByEmailAsync(string email)
+        {
+            return await _context.Students.SingleOrDefaultAsync(s => s.Email == email);
+        }
+
         public async Task<Student> GetStudentByIdAsync(int id)
         {
             return await _context.Students.FindAsync(id);            

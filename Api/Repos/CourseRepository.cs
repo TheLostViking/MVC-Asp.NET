@@ -26,19 +26,19 @@ namespace Api.Repos
            _context.Courses.Remove(course);
         }
 
+        public async Task<Course> GetCourseByCourseNumberAsync(int courseNumber)
+        {
+            return await _context.Courses.SingleOrDefaultAsync(c => c.CourseNumber == courseNumber);
+        }
+
+        public async Task<Course> GetCourseByIdAsync(int id)
+        {
+            return await _context.Courses.FindAsync(id);
+        }
+
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
             return await _context.Courses.ToListAsync();
-        }
-
-        public async Task<Course> GetCoursesByCourseNumberAsync(int courseNumber)
-        {
-            return await _context.Courses.FindAsync(courseNumber);
-        }
-
-        public async Task<Course> GetCoursesByIdAsync(int id)
-        {
-            return await _context.Courses.FindAsync(id);
         }
         public void Update(Course course)
         {

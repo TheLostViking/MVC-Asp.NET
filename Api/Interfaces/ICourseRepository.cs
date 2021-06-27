@@ -8,8 +8,8 @@ namespace Api.Interfaces
     {
         Task Add(Course course);
         Task<IEnumerable<Course>> GetCoursesAsync();
-        Task<Course> GetCoursesByIdAsync(int id);
-        Task<Course> GetCoursesByCourseNumberAsync(int courseNumber);
+        Task<Course> GetCourseByIdAsync(int id);
+        Task<Course> GetCourseByCourseNumberAsync(int courseNumber);
         void Update(Course course);
         void Delete(Course course);
     }

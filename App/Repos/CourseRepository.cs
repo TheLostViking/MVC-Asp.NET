@@ -25,6 +25,11 @@ namespace App.Repos
             _context.Courses.Remove(course);
         }
 
+        public async Task<Course> GetCourseByCourseNumberAsync(int courseNumber)
+        {
+            return await _context.Courses.FindAsync(courseNumber);
+        }
+
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
             return await _context.Courses.ToListAsync();
