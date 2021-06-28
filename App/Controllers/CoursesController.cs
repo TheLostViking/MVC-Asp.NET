@@ -16,12 +16,10 @@ namespace App.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ICourseService _service;
+                private readonly ICourseService _service;
 
         public CoursesController(IUnitOfWork unitOfWork, ICourseService service)
         {
-            _unitOfWork = unitOfWork;
             _service = service;
         }
 

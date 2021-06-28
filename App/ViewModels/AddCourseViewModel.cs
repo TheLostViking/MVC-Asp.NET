@@ -1,7 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using App.Models;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.ViewModels
 {

@@ -34,7 +34,7 @@ namespace Api.Controllers
                 {
                     students.Add(CreateStudentViewModel(s));
                 }
-                return Ok(result);
+                return Ok(students);
             }
             catch (Exception ex)
             {
@@ -48,8 +48,8 @@ namespace Api.Controllers
             try
             {
                 var result = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
-                if (result != null) return StatusCode(201);
-                return StatusCode(500, "Student not found!");
+                if (result == null) return NotFound();
+                return Ok(CreateStudentViewModel(result));
             }
             catch (Exception ex)
             {
@@ -58,14 +58,14 @@ namespace Api.Controllers
 
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("find/{email}")]
         public async Task<IActionResult> GetStudentByEmailAsync(string email)
         {
             try
             {
                 var result = await _unitOfWork.StudentRepository.GetStudentByEmailAsync(email);
-                if (result != null) return StatusCode(201);
-                return StatusCode(500, "Email not found!");
+                if (result == null) return NotFound();
+                return Ok(CreateStudentViewModel(result));
             }
             catch (Exception ex)
             {

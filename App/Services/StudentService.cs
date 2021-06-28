@@ -49,35 +49,91 @@ namespace App.Services
             }
             catch (Exception ex)
             {
-              throw new Exception(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
-        public Task<bool> DeleteStudent(int id)
+        public async Task<bool> DeleteStudent(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var student = await GetStudentByIdAsync(id);
+                var url = _baseUrl + $"/{student.Id}";
+                var response = await _client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+
         }
 
-        public Task<bool> EditStudent(int id, StudentModel model)
+        public async Task<bool> EditStudent(int id, StudentModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var url = _baseUrl + $"/{id}";
+                var data = JsonSerializer.Serialize(model);
+
+                var response = await _client.PutAsync(url, new StringContent(data, Encoding.Default, "application/json"));
+                if(response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.Content.ReadAsStringAsync().Result;
+                    throw new Exception(error);
+                }
+            }
+            catch (Exception ex)
+            {
+               throw new Exception(ex.Message);
+            }
         }
 
-        public Task<StudentModel> GetStudentByEmailAsync(string email)
+        public async Task<StudentModel> GetStudentByEmailAsync(string email)
         {
-            throw new System.NotImplementedException();
+            var response = await _client.GetAsync($"{_baseUrl}/find/{email}");
+
+            if(response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<StudentModel>(data, _options);
+
+                return result;
+            }
+            else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            else
+            {
+                throw new Exception("Hittade inte studenten!");
+            }
         }
 
         public async Task<StudentModel> GetStudentByIdAsync(int id)
         {
             var response = await _client.GetAsync($"{_baseUrl}/{id}");
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<StudentModel>(data, _options);
-                
-                return result;                
+
+                return result;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {

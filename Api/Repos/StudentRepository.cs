@@ -33,7 +33,7 @@ namespace Api.Repos
 
         public async Task<Student> GetStudentByIdAsync(int id)
         {
-            return await _context.Students.FindAsync(id);            
+            return await _context.Students.SingleOrDefaultAsync(s => s.Id == id);            
         }
 
         public async Task<IEnumerable<Student>> GetStudentsAsync()
