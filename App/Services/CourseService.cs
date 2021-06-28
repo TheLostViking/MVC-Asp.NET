@@ -30,7 +30,7 @@ namespace App.Services
         }
         public async Task<List<CourseModel>> GetCoursesAsync()
         {
-            var response = await _client.GetAsync($"{_baseUrl}");
+            var response = await _client.GetAsync(_baseUrl);
 
             if (response.IsSuccessStatusCode)
             {
@@ -40,7 +40,7 @@ namespace App.Services
             }
             else
             {
-                throw new Exception("Hoppsan! Något gick fel!");
+                throw new Exception("That didn't quite work!");
             }
         }
 

@@ -1,0 +1,42 @@
+@model App.ViewModels.AddStudentViewModel
+
+<h1>Here you can add a new student </h1>
+
+@Html.ValidationSummary()
+@* Creating a form for adding course *@
+
+<form asp-controller="Courses" asp-action="AddStudent" method="POST">
+    <div class="card">
+        <div class="card-header">
+            <h4>Add new student</h4>
+        </div>
+        <div class="p-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="FirstName"></label>
+                <input class="form-control" asp-for="FirstName">
+                <span asp-validation-for="FirstName"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="LastName"></label>
+                <input class="form-control" asp-for="LastName">
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Email"></label>
+                <input class="form-control" asp-for="Email">
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Phone"></label>
+                <input class="form-control" asp-for="Phone">
+                <span asp-validation-for="Phone"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Adress"></label>
+                <input class="form-control" asp-for="Adress">
+                <span asp-validation-for="Adress"></span>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Save">
+        </div>
+    </div>
+</form>
