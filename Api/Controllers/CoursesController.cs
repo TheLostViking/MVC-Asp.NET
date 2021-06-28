@@ -90,7 +90,6 @@ namespace Api.Controllers
                     Title = course.Title,
                     Description = course.Description,
                     Length = course.Length,
-                    Level = course.Level,
                     Price = course.Price
                 };
 
@@ -124,7 +123,6 @@ namespace Api.Controllers
                 course.Description = courseModel.Description;
                 course.CourseNumber = courseModel.CourseNumber;
                 course.Length = courseModel.Length;
-                course.Level = courseModel.Level;
                 course.Price = courseModel.Price;
 
                 _unitOfWork.CourseRepository.Update(course);
@@ -165,9 +163,7 @@ namespace Api.Controllers
                 CourseNumber = course.CourseNumber,
                 Description = course.Description,
                 Length = course.Length,
-                Level = course.Level,
-                Price = course.Price,
-                Active = course.Active
+                Price = course.Price
             };
             return model;
         }
