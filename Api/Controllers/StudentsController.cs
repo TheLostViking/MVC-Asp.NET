@@ -148,7 +148,7 @@ namespace Api.Controllers
         {
             var model = new StudentViewModel()
             {
-                Id = student.Id,
+                StudentId = student.StudentId,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 Email = student.Email,

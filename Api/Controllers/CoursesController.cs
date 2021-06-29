@@ -110,7 +110,7 @@ namespace Api.Controllers
         {
 
             var checkCourseNo = await _unitOfWork.CourseRepository.GetCourseByCourseNumberAsync(courseModel.CourseNumber);
-            if (checkCourseNo != null && checkCourseNo.Id != courseModel.Id)
+            if (checkCourseNo != null && checkCourseNo.CourseId != courseModel.CourseId)
             {
                 throw new Exception ("There's already a course with this course number!");
             }
@@ -158,7 +158,7 @@ namespace Api.Controllers
         {
             var model = new CourseViewModel()
             {
-                Id = course.Id,
+                CourseId = course.CourseId,
                 Title = course.Title,
                 CourseNumber = course.CourseNumber,
                 Description = course.Description,
