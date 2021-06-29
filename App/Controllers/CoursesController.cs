@@ -78,7 +78,7 @@ namespace App.Controllers
 
             var model = new EditCourseViewModel
             {
-                Id = course.Id,
+                Id = course.CourseId,
                 CourseNumber = course.CourseNumber,
                 Title = course.Title,
                 Description = course.Description,
@@ -109,7 +109,7 @@ namespace App.Controllers
 
             try
             {
-                if (await _service.EditCourse(course.Id, course)) return RedirectToAction("Index");
+                if (await _service.EditCourse(course.CourseId, course)) return RedirectToAction("Index");
             }
             catch (Exception)
             {

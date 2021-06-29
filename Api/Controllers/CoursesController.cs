@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
+
 using System.Threading.Tasks;
-using Api.Data;
+
 using Api.Entities;
 using Api.Interfaces;
 using Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -77,14 +76,14 @@ namespace Api.Controllers
         public async Task<IActionResult> AddCourse(AddCourseViewModel course)
         {
             var checkCourseNo = await _unitOfWork.CourseRepository.GetCourseByCourseNumberAsync(course.CourseNumber);
-            if(checkCourseNo != null)
+            if (checkCourseNo != null)
             {
                 throw new Exception("There is already a course with this course number!");
             }
 
             try
             {
-                var newCourse = new Course 
+                var newCourse = new Course
                 {
                     CourseNumber = course.CourseNumber,
                     Title = course.Title,
@@ -112,7 +111,7 @@ namespace Api.Controllers
             var checkCourseNo = await _unitOfWork.CourseRepository.GetCourseByCourseNumberAsync(courseModel.CourseNumber);
             if (checkCourseNo != null && checkCourseNo.CourseId != courseModel.CourseId)
             {
-                throw new Exception ("There's already a course with this course number!");
+                throw new Exception("There's already a course with this course number!");
             }
             try
             {

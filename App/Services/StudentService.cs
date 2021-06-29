@@ -58,7 +58,7 @@ namespace App.Services
             try
             {
                 var student = await GetStudentByIdAsync(id);
-                var url = _baseUrl + $"/{student.Id}";
+                var url = _baseUrl + $"/{student.StudentId}";
                 var response = await _client.DeleteAsync(url);
 
                 if (response.IsSuccessStatusCode)

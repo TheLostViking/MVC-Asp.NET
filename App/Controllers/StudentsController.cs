@@ -63,7 +63,7 @@ namespace App.Controllers
         public async Task<IActionResult> DeleteStudent(int id)
         {
             var student = await _service.GetStudentByIdAsync(id);
-            if(await _service.DeleteStudent(student.Id)) return RedirectToAction("Index");
+            if(await _service.DeleteStudent(student.StudentId)) return RedirectToAction("Index");
             return View("Error");
         }
         [HttpGet()]
@@ -73,7 +73,7 @@ namespace App.Controllers
 
             var model = new EditStudentViewModel
             {
-                Id = student.Id,
+                Id = student.StudentId,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 Email = student.Email,
@@ -102,7 +102,7 @@ namespace App.Controllers
 
             try
             {
-                if(await _service.EditStudent(student.Id, student)) return RedirectToAction("Index");                
+                if(await _service.EditStudent(student.StudentId, student)) return RedirectToAction("Index");                
             }
             catch (Exception)
             {

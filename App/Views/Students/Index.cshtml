@@ -23,7 +23,7 @@
     {
         <tr>
             <td style="text-align:center;">
-                <a asp-action="EditStudent" asp-route-id="@student.Id" class="btn btn-primary btn-small">Edit</a>
+                <a asp-action="EditStudent" asp-route-id="@student.StudentId" class="btn btn-primary btn-small">Edit</a>
             </td>
             <td>@student.FirstName</td>
             <td>@student.LastName</td>
@@ -31,7 +31,7 @@
             <td>@student.Phone</td>
             <td>@student.Adress</td>
             <td style="text-align: center;">
-              <a asp-action="DeleteStudent" asp-route-Id="@student.Id" class = "btn btn-primary btn-small">Delete</a>
+              <a asp-action="DeleteStudent" asp-route-Id="@student.StudentId" class = "btn btn-primary btn-small">Delete</a>
             </td>
         </tr>  
     }    
