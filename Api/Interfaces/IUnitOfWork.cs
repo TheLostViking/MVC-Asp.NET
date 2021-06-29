@@ -6,6 +6,7 @@ namespace Api.Interfaces
     {
         ICourseRepository CourseRepository { get; }
         IStudentRepository StudentRepository { get; }
+        ILevelRepository LevelRepository { get; }
         Task<bool> Complete(); // Take cares of all save actions
         bool HasChanges(); // Tracks changes
     }

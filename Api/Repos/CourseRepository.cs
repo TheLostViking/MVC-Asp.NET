@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
@@ -40,6 +41,32 @@ namespace Api.Repos
         {
             return await _context.Courses.ToListAsync();
         }
+
+        public async Task<IEnumerable<Course>> GetCoursesByStatusAsync(string status)
+        {
+            return await _context.Courses
+                .Where(c => c.Status.Name.ToLower() == status.ToLower())
+                .Include(c => c.Level)
+                .Include(c => c.Status)
+                .Include(c => c.CourseStudents)
+                    .ThenInclude(c => c.Student)
+                .OrderBy(c => c.Status.Name)
+                    .ThenBy(c => c.CourseNumber)
+                .ToListAsync();
+        }
+
+        public async void SetActiveAsync(int id)
+        {
+            var course = await GetCourseByIdAsync(id);
+            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Active");
+        }
+
+        public async void SetInavticeAsync(int id)
+        {
+            var course = await GetCourseByIdAsync(id);
+            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Inactive");
+        }
+
         public void Update(Course course)
         {
             _context.Courses.Update(course);

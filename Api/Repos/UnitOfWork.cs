@@ -17,6 +17,8 @@ namespace Api.Repos
 
         public IStudentRepository StudentRepository => new StudentRepository(_context);
 
+        public ILevelRepository LevelRepository => new LevelRepository(_context);
+
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

@@ -26,8 +26,9 @@ namespace Api.Controllers
         {
             try
             {
-                var result = await _unitOfWork.CourseRepository.GetCoursesAsync();
                 var courses = new List<CourseViewModel>();
+                var result = await _unitOfWork.CourseRepository.GetCoursesAsync();                
+
                 if (result == null) return NotFound();
 
                 foreach (var c in result)
@@ -35,6 +36,31 @@ namespace Api.Controllers
                     courses.Add(CreateCourseViewModel(c));
                 }
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("status/{status}")]
+        public async Task<IActionResult> GetActiveCourses(string status)
+        {
+            try
+            {
+                var activeCourses = new List<CourseViewModel>();
+                var result = await _unitOfWork.CourseRepository.GetCoursesByStatusAsync(status);
+
+                if(result == null) return NotFound();
+                
+                foreach (var c in result)
+                {
+                    if(c.Status.Name == "Active")
+                    {
+                        activeCourses.Add(CreateCourseViewModel(c));
+                    }                    
+                }
+                return Ok(activeCourses);
             }
             catch (Exception ex)
             {
@@ -146,6 +172,20 @@ namespace Api.Controllers
                 var result = _unitOfWork.Complete();
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetLevels()
+        {
+            try
+            {
+                var result = await _unitOfWork.LevelRepository.GetLevelsAsync();
+                return Ok(result);
             }
             catch (Exception ex)
             {

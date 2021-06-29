@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Buy a course!";
+}
+@model IEnumerable<App.Models.CourseModel>
+
+
+<h2>Available courses for purchase</h2>
+
+<table class="table">
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">Course #</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Length</th>
+      <th scope="col">Level</th>
+      <th scope="col">Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>      
+    @foreach (var course in Model)
+    {
+        <tr>
+            <td>@course.CourseNumber</td>
+            <td>@course.Title</td>
+            <td>@course.Description</td>
+            <td>@course.Length</td>
+            <td>@course.Level</td>
+            <td>@course.Price</td>
+            <td style="text-align: center;">
+              <a asp-action="Enroll" asp-route-courseNumber="@course.CourseId" class = "btn btn-primary btn-small">Enroll</a>
+            </td>
+        </tr>  
+    }    
+  </tbody>
+</table>
