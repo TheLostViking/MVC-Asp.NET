@@ -16,7 +16,7 @@ namespace App.Controllers
 {
     public class CoursesController : Controller
     {
-                private readonly ICourseService _service;
+        private readonly ICourseService _service;
 
         public CoursesController(IUnitOfWork unitOfWork, ICourseService service)
         {

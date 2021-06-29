@@ -9,6 +9,6 @@ namespace App.Models
         public string Length { get; set; }
         public string Level { get; set; }
         public decimal Price { get; set; } 
-        public bool Active { get; set; }
+        public string Status { get; set; }
     }
 }
