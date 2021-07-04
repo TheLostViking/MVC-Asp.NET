@@ -21,8 +21,8 @@ namespace App.ViewModels
         public string Length { get; set; }
         
         [Required(ErrorMessage = "Course Level is required")]
-        public string Level { get; set;} 
-        
+        //public int Level { get; set;} //Ändrad från string.
+        public string Level { get; set; }
         [Display(Name = "Price (USD) No decimals allowed")]
         [Required(ErrorMessage = "Price can't be empty.")]
         public decimal Price { get; set; }        

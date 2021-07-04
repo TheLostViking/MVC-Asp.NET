@@ -16,12 +16,12 @@ namespace Api.Repos
             _context = context;
         }
 
-        public async Task<Level> GetLevelByIdAsync(int id)
+        public async Task<Level> GetLevelAsync(int id)
         {
             return await _context.Levels.SingleOrDefaultAsync(l => l.Id == id);
         }
 
-        public async Task<Level> GetLevelByNameAsync(string name)
+        public async Task<Level> GetLevelAsync(string name)
         {
             return await _context.Levels.SingleOrDefaultAsync(l => l.Name.ToLower() == name.ToLower());
         }

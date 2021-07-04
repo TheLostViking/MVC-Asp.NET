@@ -10,6 +10,7 @@ namespace App.Interfaces
         Task<StudentModel> GetStudentByIdAsync(int id);
         Task<StudentModel> GetStudentByEmailAsync(string email);
         Task<bool> AddStudent(StudentModel model);
+        Task<bool> AddCourseToStudentAsync(int studentId, int courseId, CourseStudentModel model);
         Task<bool> EditStudent(int id, StudentModel model);
         Task<bool> DeleteStudent(int id);
     }

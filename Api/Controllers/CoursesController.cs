@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
-
 using Api.Entities;
 using Api.Interfaces;
 using Api.ViewModels;
+using Api.ViewModels.Students;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -24,6 +23,18 @@ namespace Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetCourses()
         {
+            // try
+            // {
+            //     var courses = new List<Course>();
+            //     var result = await _unitOfWork.CourseRepository.GetCoursesAsync();
+
+            //     if (result == null) return NotFound();
+            //     foreach (var c in result)
+            //     {
+            //         courses.Add(c);
+            //     }
+            //     return Ok(result);
+            // }
             try
             {
                 var courses = new List<CourseViewModel>();
@@ -51,14 +62,14 @@ namespace Api.Controllers
                 var activeCourses = new List<CourseViewModel>();
                 var result = await _unitOfWork.CourseRepository.GetCoursesByStatusAsync(status);
 
-                if(result == null) return NotFound();
-                
+                if (result == null) return NotFound();
+
                 foreach (var c in result)
                 {
-                    if(c.Status.Name == "Active")
+                    if (c.Status.Name == "Active")
                     {
                         activeCourses.Add(CreateCourseViewModel(c));
-                    }                    
+                    }
                 }
                 return Ok(activeCourses);
             }
@@ -107,14 +118,27 @@ namespace Api.Controllers
                 throw new Exception("There is already a course with this course number!");
             }
 
+            // var checkLevel = await _unitOfWork.LevelRepository.GetLevelsAsync();
+            // var level = new Level();
+            // foreach (var l in checkLevel)
+            // {
+            //     if(l.Id == course.Level)
+            //     {
+            //         level = l;
+            //     }
+            // }
+
             try
             {
+                var level = await _unitOfWork.LevelRepository.GetLevelAsync(course.Level);
+                if (level == null) return NotFound("Could not find level: " + course.Level);
                 var newCourse = new Course
                 {
                     CourseNumber = course.CourseNumber,
                     Title = course.Title,
                     Description = course.Description,
                     Length = course.Length,
+                    LevelId = level.Id,
                     Price = course.Price
                 };
 
@@ -141,6 +165,9 @@ namespace Api.Controllers
             }
             try
             {
+                var level = await _unitOfWork.LevelRepository.GetLevelAsync(courseModel.Level);
+                if (level == null) return NotFound("Could not find level: " + courseModel.Level);
+
                 var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(id);
                 if (course == null) return NotFound();
 
@@ -149,6 +176,7 @@ namespace Api.Controllers
                 course.CourseNumber = courseModel.CourseNumber;
                 course.Length = courseModel.Length;
                 course.Price = courseModel.Price;
+                course.LevelId = level.Id;
 
                 _unitOfWork.CourseRepository.Update(course);
                 var result = await _unitOfWork.Complete();
@@ -179,13 +207,32 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet()]
+        [HttpGet("levels")]
         public async Task<IActionResult> GetLevels()
         {
             try
             {
                 var result = await _unitOfWork.LevelRepository.GetLevelsAsync();
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> SetCourseInactiveAsync(int id)
+        {
+            try
+            {
+                var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(id);
+                if (course == null) return NotFound();
+
+                _unitOfWork.CourseRepository.SetInavticeAsync(course.CourseId);
+                var result = await _unitOfWork.Complete();
+
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -202,7 +249,22 @@ namespace Api.Controllers
                 CourseNumber = course.CourseNumber,
                 Description = course.Description,
                 Length = course.Length,
+                Level = course.Level.Name,
                 Price = course.Price
+            };
+            model.Students = new List<StudentViewModel>();
+            foreach (var cs in course.CourseStudents)
+            {
+                var sModel = new StudentViewModel()
+                {
+                    StudentId = cs.StudentId,
+                    FirstName = cs.Student.FirstName,
+                    LastName = cs.Student.LastName,
+                    Email = cs.Student.Email,
+                    Phone = cs.Student.Phone,
+                    Adress = cs.Student.Adress
+                };
+                model.Students.Add(sModel);
             };
             return model;
         }

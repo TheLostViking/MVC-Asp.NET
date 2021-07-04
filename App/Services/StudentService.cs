@@ -28,6 +28,30 @@ namespace App.Services
             };
         }
 
+        public async Task<bool> AddCourseToStudentAsync(int studentId, int courseId, CourseStudentModel model)
+        {
+            try
+            {
+                var url = _baseUrl + $"/{studentId}/{courseId}";
+                var data = JsonSerializer.Serialize(model);
+
+                var response = await _client.PostAsync(url, new StringContent(data, Encoding.Default, "application/json"));
+                if(response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.Content.ReadAsStringAsync().Result;
+                    throw new Exception(error);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<bool> AddStudent(StudentModel model)
         {
             try

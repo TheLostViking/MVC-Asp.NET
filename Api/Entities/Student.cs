@@ -10,6 +10,6 @@ namespace Api.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Adress { get; set; }
-        public ICollection<CourseStudent> CourseStudents { get; set; }
+        public virtual ICollection<CourseStudent> CourseStudents { get; set; }
     }
 }

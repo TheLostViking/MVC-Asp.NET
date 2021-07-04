@@ -1,6 +1,7 @@
 using Api.Data;
 using Api.Entities;
 using Api.Interfaces;
+using Api.ViewModels;
 using Api.ViewModels.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace Api.Controllers
 
                 foreach (var s in result)
                 {
-                    students.Add(CreateStudentViewModel(s));
+                    students.Add(await CreateStudentViewModel(s));
                 }
                 return Ok(students);
             }
@@ -49,7 +50,7 @@ namespace Api.Controllers
             {
                 var result = await _unitOfWork.StudentRepository.GetStudentByIdAsync(id);
                 if (result == null) return NotFound();
-                return Ok(CreateStudentViewModel(result));
+                return Ok(await CreateStudentViewModel(result));
             }
             catch (Exception ex)
             {
@@ -65,7 +66,7 @@ namespace Api.Controllers
             {
                 var result = await _unitOfWork.StudentRepository.GetStudentByEmailAsync(email);
                 if (result == null) return NotFound();
-                return Ok(CreateStudentViewModel(result));
+                return Ok(await CreateStudentViewModel(result));
             }
             catch (Exception ex)
             {
@@ -144,7 +145,23 @@ namespace Api.Controllers
             }
         }
 
-        private StudentViewModel CreateStudentViewModel(Student student)
+        [HttpPost("{studentId}/{courseId}")]
+        public async Task<IActionResult> AddCourseStudent(int studentId, int courseId, CourseStudent courseStudent)
+        {
+            try
+            {
+                await _unitOfWork.CourseStudentRepository.AddAsync(courseStudent);
+                if (await _unitOfWork.Complete()) return StatusCode(201);
+
+                return StatusCode(500, "Could not add course to student!");
+            }
+            catch (Exception ex)
+            {
+               return StatusCode(500, ex.Message);
+            }
+        }
+
+        private async Task<StudentViewModel> CreateStudentViewModel(Student student)
         {
             var model = new StudentViewModel()
             {
@@ -155,6 +172,22 @@ namespace Api.Controllers
                 Phone = student.Phone,
                 Adress = student.Adress
             };
+            model.Courses = new List<CourseViewModel>();
+            foreach (var cs in student.CourseStudents)
+            {
+                var level = await _unitOfWork.LevelRepository.GetLevelAsync(cs.Course.LevelId);
+                var cModel = new CourseViewModel()
+                {
+                    CourseId = cs.Course.CourseId,
+                    CourseNumber = cs.Course.CourseNumber,
+                    Title = cs.Course.Title,
+                    Description = cs.Course.Description,
+                    Length = cs.Course.Length,
+                    Level = level.Name,
+                    Status = cs.Course.Status.Name
+                };
+                model.Courses.Add(cModel);
+            }
             return model;
         }
     }

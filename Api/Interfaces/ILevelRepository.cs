@@ -6,8 +6,8 @@ namespace Api.Interfaces
 {
     public interface ILevelRepository
     {
-        Task<Level> GetLevelByIdAsync(int id);
-        Task<Level> GetLevelByNameAsync(string name);
+        Task<Level> GetLevelAsync(int id);
+        Task<Level> GetLevelAsync(string name);
         Task<IEnumerable<Level>> GetLevelsAsync();
     }
 }

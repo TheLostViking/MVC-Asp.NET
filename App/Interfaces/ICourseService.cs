@@ -10,7 +10,9 @@ namespace App.Interfaces
         Task<List<CourseModel>> GetCoursesAsync();
         Task<List<CourseModel>> GetActiveCoursesAsync();
         Task<CourseModel> GetCourseByIdAsync(int id);
-        Task<CourseModel> GetCourseByCourseNoAsync(int courseNumber);        
+        Task<CourseModel> GetCourseByCourseNoAsync(int courseNumber);
+        Task<List<LevelModel>> GetLevelsAsync(); 
+        Task<bool> SetCourseAsInactiveAsync(int id);       
         Task<bool> AddCourse(CourseModel model);
         Task<bool> EditCourse(int id, CourseModel model);
         Task<bool> DeleteCourse(int courseNumber);

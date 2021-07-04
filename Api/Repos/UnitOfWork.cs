@@ -14,10 +14,10 @@ namespace Api.Repos
         }
 
         public ICourseRepository CourseRepository => new CourseRepository(_context);
-
+        public IStatusRepository StatusRepository => new StatusRepository(_context);
         public IStudentRepository StudentRepository => new StudentRepository(_context);
-
         public ILevelRepository LevelRepository => new LevelRepository(_context);
+        public ICourseStudentRepository CourseStudentRepository => new CourseStudentRepository(_context);
 
         public async Task<bool> Complete()
         {

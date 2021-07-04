@@ -19,6 +19,7 @@ namespace Api.Repos
 
         public async Task Add(Course course)
         {
+           course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Id == 1); 
            await _context.Courses.AddAsync(course);
         }
 
@@ -29,17 +30,32 @@ namespace Api.Repos
 
         public async Task<Course> GetCourseByCourseNumberAsync(int courseNumber)
         {
-            return await _context.Courses.SingleOrDefaultAsync(c => c.CourseNumber == courseNumber);
+            return await _context.Courses
+            .Include(c => c.Level)
+            .Include(c => c.Status)
+            .Include(c => c.CourseStudents)
+                .ThenInclude(c => c.Student)
+            .SingleOrDefaultAsync(c => c.CourseNumber == courseNumber);
         }
 
         public async Task<Course> GetCourseByIdAsync(int id)
         {
-            return await _context.Courses.FindAsync(id);
+            return await _context.Courses
+            .Include(c => c.Level)
+            .Include(c => c.Status)
+            .Include(c => c.CourseStudents)
+                .ThenInclude(c => c.Student)
+            .SingleOrDefaultAsync(c => c.CourseId == id);
         }
 
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            return await _context.Courses.ToListAsync();
+            return await _context.Courses
+                .Include(c => c.Level)
+                .Include(c => c.Status)
+                .Include(c => c.CourseStudents)
+                    .ThenInclude(c => c.Student)
+                .OrderBy(c => c.CourseNumber).ToListAsync();
         }
 
         public async Task<IEnumerable<Course>> GetCoursesByStatusAsync(string status)
@@ -58,13 +74,17 @@ namespace Api.Repos
         public async void SetActiveAsync(int id)
         {
             var course = await GetCourseByIdAsync(id);
-            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Active");
+            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Active" && s.Id == 1);
+
+            _context.Update(course);
         }
 
         public async void SetInavticeAsync(int id)
         {
             var course = await GetCourseByIdAsync(id);
-            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Inactive");
+            course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Inactive" && s.Id == 9);
+            
+            _context.Update(course);
         }
 
         public void Update(Course course)

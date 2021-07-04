@@ -1,0 +1,43 @@
+@model App.ViewModels.BuyNewCourseViewModel
+
+<form asp-controller="BuyCourses" asp-action="AddCourseToStudent" method="POST" asp-route-studentId="@Model.StudentId" asp-route-courseId="@Model.CourseId">
+    <div class="card">
+        <div class="card-header">
+            <h4>Confirm order</h4>
+        </div>
+        <div class="p-3">
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="FirstName"></label>
+                <label class="col-sm-2 col-form-label">@Model.FirstName</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="LastName"></label>
+                <label class="col-sm-2 col-form-label">@Model.LastName</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="CourseNumber"></label>
+                <label class="col-sm-2 col-form-label">@Model.CourseNumber</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="Description"></label>
+                <label class="col-sm-10 col-form-label">@Model.Description</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="Length"></label>
+                <label class="col-sm-2 col-form-label">@Model.Length</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" asp-for="Price"></label>
+                <label class="col-sm-2 col-form-label">@Model.Price</label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Ok!">
+        </div>
+    </div>
+</form>

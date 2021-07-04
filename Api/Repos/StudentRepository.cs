@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
@@ -28,17 +29,32 @@ namespace Api.Repos
 
         public async Task<Student> GetStudentByEmailAsync(string email)
         {
-            return await _context.Students.SingleOrDefaultAsync(s => s.Email == email);
+            return await _context.Students
+            .Include(c => c.CourseStudents)
+                .ThenInclude(c => c.Course)
+                    .ThenInclude(c => c.Status)
+            .SingleOrDefaultAsync(c => c.Email.ToUpper() == email.ToUpper());
         }
 
         public async Task<Student> GetStudentByIdAsync(int id)
         {
-            return await _context.Students.SingleOrDefaultAsync(s => s.StudentId == id);            
+            return await _context.Students
+                .Include(c => c.CourseStudents)
+                    .ThenInclude(c => c.Course)
+                        .ThenInclude(c => c.Status)
+                .SingleOrDefaultAsync(c => c.StudentId == id);           
         }
 
         public async Task<IEnumerable<Student>> GetStudentsAsync()
         {
-            return await _context.Students.ToListAsync();            
+            return await _context.Students
+                .Include(c => c.CourseStudents)
+                    .ThenInclude(c => c.Course)
+                        .ThenInclude(c => c.Status)
+                .OrderBy(c => c.FirstName)
+                    .ThenBy(c => c.LastName)
+                .ToListAsync();
+                         
         }
         public void Update(Student student)
         {

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace App.Models
 {
     public class StudentModel
@@ -8,6 +10,8 @@ namespace App.Models
         public string Email { get; set; }        
         public string Phone { get; set; }        
         public string Adress { get; set; }     
+
+        public virtual ICollection<CourseModel> Courses { get; set; }
         
     }
 }

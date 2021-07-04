@@ -32,9 +32,12 @@ namespace App.Controllers
         }
 
         [HttpGet()]
-        public IActionResult AddCourse()
-        {
-            return View("AddCourse");
+        public async Task<IActionResult> AddCourse()
+        {        
+            var levels = await _service.GetLevelsAsync();        
+            var courseModel = new AddCourseViewModel();
+            courseModel.LevelCollection = levels;     
+            return View("AddCourse", courseModel);
         }
 
         [HttpPost()]
