@@ -17,6 +17,7 @@ namespace App.Services
         private readonly string _baseUrl;
         private readonly JsonSerializerOptions _options;
 
+
         public CourseService(IConfiguration config, HttpClient client)
         {
             _client = client;
@@ -24,7 +25,7 @@ namespace App.Services
             _options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-                ReferenceHandler = ReferenceHandler.Preserve
+                //ReferenceHandler = ReferenceHandler.Preserve
             };
         }
 

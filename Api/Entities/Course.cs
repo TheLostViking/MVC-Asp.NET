@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Entities
 {
@@ -12,8 +13,11 @@ namespace Api.Entities
         public decimal Price { get; set; } 
         public int LevelId { get; set; }
         public int StatusId { get; set; }
-               
-        public virtual Status Status { get; set; }          
+
+        [ForeignKey("StatusId")]       
+        public virtual Status Status { get; set; }
+
+        [ForeignKey("LevelId")]          
         public virtual Level Level { get; set; }
         public virtual ICollection<CourseStudent> CourseStudents { get; set; }
     }
