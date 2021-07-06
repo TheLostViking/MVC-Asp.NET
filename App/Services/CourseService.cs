@@ -23,9 +23,8 @@ namespace App.Services
             _client = client;
             _baseUrl = config.GetSection("api:baseUrl").Value + "courses"; 
             _options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                //ReferenceHandler = ReferenceHandler.Preserve
+            {   
+                PropertyNameCaseInsensitive = true
             };
         }
 
@@ -37,12 +36,11 @@ namespace App.Services
             {
                 var data = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<List<CourseModel>>(data, _options);
-                
                 return result;
             }
             else
             {
-                throw new Exception("That didn't quite work!");
+                throw new Exception("Something went wrong!");
             }
         }
 
@@ -54,6 +52,7 @@ namespace App.Services
                 var data = JsonSerializer.Serialize(model);
 
                 var response = await _client.PostAsync(url, new StringContent(data, Encoding.Default, "application/json"));
+                string result = response.Content.ReadAsHttpResponseMessageAsync().ToString();
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -186,7 +185,7 @@ namespace App.Services
             }
             else
             {
-                throw new Exception("Hittade inga levels");
+                throw new Exception("Did not find the levels");
             }            
 
         }

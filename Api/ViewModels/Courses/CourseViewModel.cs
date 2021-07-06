@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Api.ViewModels.Students;
 
 namespace Api.ViewModels
@@ -12,8 +13,7 @@ namespace Api.ViewModels
         public string Length { get; set; }
         public string Level { get; set; }
         public decimal Price { get; set; } 
-        public string Status { get; set; }
-
+        public string Status { get; set; }        
         public virtual ICollection<StudentViewModel> Students { get; set; }
     }
 }

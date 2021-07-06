@@ -13,8 +13,8 @@ namespace App.Models
         public string Length { get; set; }
         //public int LevelId { get; set; } //Ändrad från string som test.
         public string Level { get; set; }
-        public int StatusId { get; set;}
-        //public string Status { get; set;}
+        //public int StatusId { get; set;}
+        public string Status { get; set;}
         public decimal Price { get; set; }     
 
         public virtual ICollection<StudentModel> Students { get; set;}    

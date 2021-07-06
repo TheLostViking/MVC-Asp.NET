@@ -40,10 +40,9 @@ namespace App.Controllers
             return View("AddCourse", courseModel);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> AddCourse(AddCourseViewModel data)
         {
-
             if (!ModelState.IsValid)
             {
                 return View("AddCourse", data);

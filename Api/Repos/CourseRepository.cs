@@ -19,7 +19,7 @@ namespace Api.Repos
 
         public async Task Add(Course course)
         {
-           course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Id == 1); 
+           course.Status = await _context.Statuses.SingleOrDefaultAsync(s => s.Name == "Active"); 
            await _context.Courses.AddAsync(course);
         }
 
@@ -51,11 +51,13 @@ namespace Api.Repos
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
             return await _context.Courses
-                .Include(c => c.Level)
-                .Include(c => c.Status)
-                .Include(c => c.CourseStudents)
+               .Include(c => c.Level)
+               .Include(c => c.Status)
+               .Include(c => c.CourseStudents)
                     .ThenInclude(c => c.Student)
-                .OrderBy(c => c.CourseNumber).ToListAsync();
+                .OrderBy(c => c.Status.Name)
+                    .ThenBy(c => c.CourseNumber)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Course>> GetCoursesByStatusAsync(string status)

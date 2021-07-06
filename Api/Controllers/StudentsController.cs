@@ -184,7 +184,8 @@ namespace Api.Controllers
                     Description = cs.Course.Description,
                     Length = cs.Course.Length,
                     Level = level.Name,
-                    Status = cs.Course.Status.Name
+                    Status = cs.Course.Status.Name,
+                    Price = cs.Course.Price
                 };
                 model.Courses.Add(cModel);
             }

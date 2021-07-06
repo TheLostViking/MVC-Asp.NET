@@ -10,7 +10,6 @@ namespace Api.ViewModels.Students
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Adress { get; set; }
-
         public virtual ICollection<CourseViewModel> Courses { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace Api.Controllers
                 {
                     courses.Add(CreateCourseViewModel(c));
                 }
-                return Ok(result);
+                return Ok(courses);
             }
             catch (Exception ex)
             {
@@ -241,7 +241,7 @@ namespace Api.Controllers
         }
 
         private CourseViewModel CreateCourseViewModel(Course course)
-        {
+        {               
             var model = new CourseViewModel()
             {
                 CourseId = course.CourseId,
@@ -250,6 +250,7 @@ namespace Api.Controllers
                 Description = course.Description,
                 Length = course.Length,
                 Level = course.Level.Name,
+                Status = course.Status.Name,
                 Price = course.Price
             };
             model.Students = new List<StudentViewModel>();

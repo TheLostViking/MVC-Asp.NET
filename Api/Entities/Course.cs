@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Api.Entities
 {
@@ -19,6 +20,7 @@ namespace Api.Entities
 
         [ForeignKey("LevelId")]          
         public virtual Level Level { get; set; }
+        
         public virtual ICollection<CourseStudent> CourseStudents { get; set; }
     }
 }
