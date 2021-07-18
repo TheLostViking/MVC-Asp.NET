@@ -7,13 +7,14 @@ namespace App.ViewModels
 {
     public class AddCourseViewModel
     {
-        [Display(Name = "Course Title")]
-        [Required(ErrorMessage = "You have to enter a title.")]
-        public string Title { get; set; }
-
+        
         [Display(Name = "Course Number")]
         [Required(ErrorMessage = "Please enter course number!")]
         public int CourseNumber { get; set; }
+        
+        [Display(Name = "Course Title")]
+        [Required(ErrorMessage = "You have to enter a title.")]
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "You have to enter a description.")]
         public string Description { get; set; }
@@ -22,6 +23,7 @@ namespace App.ViewModels
         [Required(ErrorMessage = "You have to enter the length of the course.")]
         public string Length { get; set; }
 
+        [Display(Name = "Level (Beginner, Intermediate or Advanced)")]
         [Required(ErrorMessage = "Please enter course level!")]
         // public int Level { get; set; } //Ändrad från string
         public string Level { get; set; }

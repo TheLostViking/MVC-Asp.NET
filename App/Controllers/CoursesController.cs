@@ -34,13 +34,13 @@ namespace App.Controllers
         [HttpGet()]
         public async Task<IActionResult> AddCourse()
         {        
-            var levels = await _service.GetLevelsAsync();        
-            var courseModel = new AddCourseViewModel();
-            courseModel.LevelCollection = levels;     
-            return View("AddCourse", courseModel);
+        //     var levels = await _service.GetLevelsAsync();        
+        //     var courseModel = new AddCourseViewModel();
+        //     courseModel.LevelCollection = levels;     
+            return View("AddCourse");
         }
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> AddCourse(AddCourseViewModel data)
         {
             if (!ModelState.IsValid)

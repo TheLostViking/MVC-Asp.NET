@@ -31,7 +31,6 @@ namespace App.Services
         public async Task<List<CourseModel>> GetCoursesAsync()
         {            
             var response = await _client.GetAsync($"{_baseUrl}");
-
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -48,11 +47,10 @@ namespace App.Services
         {
             try
             {
-                var url = _baseUrl;
+                var url = _baseUrl + "/add";
                 var data = JsonSerializer.Serialize(model);
 
                 var response = await _client.PostAsync(url, new StringContent(data, Encoding.Default, "application/json"));
-                string result = response.Content.ReadAsHttpResponseMessageAsync().ToString();
 
                 if (response.IsSuccessStatusCode)
                 {

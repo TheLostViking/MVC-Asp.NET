@@ -109,7 +109,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost("add")]
         public async Task<IActionResult> AddCourse(AddCourseViewModel course)
         {
             var checkCourseNo = await _unitOfWork.CourseRepository.GetCourseByCourseNumberAsync(course.CourseNumber);
